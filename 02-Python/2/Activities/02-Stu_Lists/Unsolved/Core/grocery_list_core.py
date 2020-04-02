@@ -7,18 +7,23 @@ organize her grocery shopping list.
 """
 
 # @TODO: Create a list of groceries
-
+print("My List of Groceries")
+groceries = ["water", "butter", "eggs", "apples", "cinnamon", "sugar", "milk" ]
+print(groceries)
+print()
 
 
 
 
 # @TODO: Find the first two items on the list
-
+print("what are my first two items on the list")
+print([:2])
+print()
 
 
 
 # @TODO: Find the last five items on the list
-
+print("What are my last five items on the list")
 
 
 
