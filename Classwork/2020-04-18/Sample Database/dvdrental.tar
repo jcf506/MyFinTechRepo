@@ -1,0 +1,26 @@
+
+select c.name,
+	sum(p.amount) as total_sales
+from
+	category c
+	inner join film_category fc
+	on c.category_id = fc.category_id
+	inner join inventory i
+	on fc.film_id = i.film_id
+	inner join rental r
+	on i.inventory_id = r.inventory_id
+	inner join payment p
+	on r.rental_id = p.rental_id
+group by c.name;
+
+SELECT Max(amount) as p
+
+1. What's the highest grossing category?	
+
+2. What's the lowest?
+3. How many DVD's do we have in stock for each category?
+4. What is the percentage of stock and amount?
+5. Which categories are we over- or under- stocked in?
+6. Which stores have the top 3 highest sales?  The lowest 3?
+7. Where are our stores?
+--
