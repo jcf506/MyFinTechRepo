@@ -1,0 +1,553 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    
+      <meta charset="utf-8">
+      <title>hvPlot Plot</title>
+      
+      
+        
+          
+        <style>
+            table.panel-df {
+                    margin-left: auto;
+                    margin-right: auto;
+                    border: none;
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                    color: black;
+                    font-size: 12px;
+                    table-layout: fixed;
+                    width: 100%;
+                }
+
+                .panel-df tr, th, td {
+                    text-align: right;
+                    vertical-align: middle;
+                    padding: 0.5em 0.5em !important;
+                    line-height: normal;
+                    white-space: normal;
+                    max-width: none;
+                    border: none;
+                }
+
+                .panel-df tbody {
+                    display: table-row-group;
+                    vertical-align: middle;
+                    border-color: inherit;
+                }
+
+                .panel-df tbody tr:nth-child(odd) {
+                    background: #f5f5f5;
+                }
+
+                .panel-df thead {
+                    border-bottom: 1px solid black;
+                    vertical-align: bottom;
+                }
+
+                .panel-df tr:hover {
+                    background: lightblue !important;
+                    cursor: pointer;
+                }
+
+        </style>
+        <style>
+            .json-formatter-row {
+                  font-family: monospace;
+                }
+                .json-formatter-row,
+                .json-formatter-row a,
+                .json-formatter-row a:hover {
+                  color: black;
+                  text-decoration: none;
+                }
+                .json-formatter-row .json-formatter-row {
+                  margin-left: 1rem;
+                }
+                .json-formatter-row .json-formatter-children.json-formatter-empty {
+                  opacity: 0.5;
+                  margin-left: 1rem;
+                }
+                .json-formatter-row .json-formatter-children.json-formatter-empty:after {
+                  display: none;
+                }
+                .json-formatter-row .json-formatter-children.json-formatter-empty.json-formatter-object:after {
+                  content: "No properties";
+                }
+                .json-formatter-row .json-formatter-children.json-formatter-empty.json-formatter-array:after {
+                  content: "[]";
+                }
+                .json-formatter-row .json-formatter-string,
+                .json-formatter-row .json-formatter-stringifiable {
+                  color: green;
+                  white-space: pre;
+                  word-wrap: break-word;
+                }
+                .json-formatter-row .json-formatter-number {
+                  color: blue;
+                }
+                .json-formatter-row .json-formatter-boolean {
+                  color: red;
+                }
+                .json-formatter-row .json-formatter-null {
+                  color: #855A00;
+                }
+                .json-formatter-row .json-formatter-undefined {
+                  color: #ca0b69;
+                }
+                .json-formatter-row .json-formatter-function {
+                  color: #FF20ED;
+                }
+                .json-formatter-row .json-formatter-date {
+                  background-color: rgba(0, 0, 0, 0.05);
+                }
+                .json-formatter-row .json-formatter-url {
+                  text-decoration: underline;
+                  color: blue;
+                  cursor: pointer;
+                }
+                .json-formatter-row .json-formatter-bracket {
+                  color: blue;
+                }
+                .json-formatter-row .json-formatter-key {
+                  color: #00008B;
+                  padding-right: 0.2rem;
+                }
+                .json-formatter-row .json-formatter-toggler-link {
+                  cursor: pointer;
+                }
+                .json-formatter-row .json-formatter-toggler {
+                  line-height: 1.2rem;
+                  font-size: 0.7rem;
+                  vertical-align: middle;
+                  opacity: 0.6;
+                  cursor: pointer;
+                  padding-right: 0.2rem;
+                }
+                .json-formatter-row .json-formatter-toggler:after {
+                  display: inline-block;
+                  transition: transform 100ms ease-in;
+                  content: "\25BA";
+                }
+                .json-formatter-row > a > .json-formatter-preview-text {
+                  opacity: 0;
+                  transition: opacity 0.15s ease-in;
+                  font-style: italic;
+                }
+                .json-formatter-row:hover > a > .json-formatter-preview-text {
+                  opacity: 0.6;
+                }
+                .json-formatter-row.json-formatter-open > .json-formatter-toggler-link .json-formatter-toggler:after {
+                  transform: rotate(90deg);
+                }
+                .json-formatter-row.json-formatter-open > .json-formatter-children:after {
+                  display: inline-block;
+                }
+                .json-formatter-row.json-formatter-open > a > .json-formatter-preview-text {
+                  display: none;
+                }
+                .json-formatter-row.json-formatter-open.json-formatter-empty:after {
+                  display: block;
+                }
+                .json-formatter-dark.json-formatter-row {
+                  font-family: monospace;
+                }
+                .json-formatter-dark.json-formatter-row,
+                .json-formatter-dark.json-formatter-row a,
+                .json-formatter-dark.json-formatter-row a:hover {
+                  color: white;
+                  text-decoration: none;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-row {
+                  margin-left: 1rem;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-children.json-formatter-empty {
+                  opacity: 0.5;
+                  margin-left: 1rem;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-children.json-formatter-empty:after {
+                  display: none;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-children.json-formatter-empty.json-formatter-object:after {
+                  content: "No properties";
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-children.json-formatter-empty.json-formatter-array:after {
+                  content: "[]";
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-string,
+                .json-formatter-dark.json-formatter-row .json-formatter-stringifiable {
+                  color: #31F031;
+                  white-space: pre;
+                  word-wrap: break-word;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-number {
+                  color: #66C2FF;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-boolean {
+                  color: #EC4242;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-null {
+                  color: #EEC97D;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-undefined {
+                  color: #ef8fbe;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-function {
+                  color: #FD48CB;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-date {
+                  background-color: rgba(255, 255, 255, 0.05);
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-url {
+                  text-decoration: underline;
+                  color: #027BFF;
+                  cursor: pointer;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-bracket {
+                  color: #9494FF;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-key {
+                  color: #23A0DB;
+                  padding-right: 0.2rem;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-toggler-link {
+                  cursor: pointer;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-toggler {
+                  line-height: 1.2rem;
+                  font-size: 0.7rem;
+                  vertical-align: middle;
+                  opacity: 0.6;
+                  cursor: pointer;
+                  padding-right: 0.2rem;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-toggler:after {
+                  display: inline-block;
+                  transition: transform 100ms ease-in;
+                  content: "\25BA";
+                }
+                .json-formatter-dark.json-formatter-row > a > .json-formatter-preview-text {
+                  opacity: 0;
+                  transition: opacity 0.15s ease-in;
+                  font-style: italic;
+                }
+                .json-formatter-dark.json-formatter-row:hover > a > .json-formatter-preview-text {
+                  opacity: 0.6;
+                }
+                .json-formatter-dark.json-formatter-row.json-formatter-open > .json-formatter-toggler-link .json-formatter-toggler:after {
+                  transform: rotate(90deg);
+                }
+                .json-formatter-dark.json-formatter-row.json-formatter-open > .json-formatter-children:after {
+                  display: inline-block;
+                }
+                .json-formatter-dark.json-formatter-row.json-formatter-open > a > .json-formatter-preview-text {
+                  display: none;
+                }
+                .json-formatter-dark.json-formatter-row.json-formatter-open.json-formatter-empty:after {
+                  display: block;
+                }
+
+        </style>
+        <style>
+            .codehilite .hll { background-color: #ffffcc }
+                .codehilite  { background: #f8f8f8; }
+                .codehilite .c { color: #408080; font-style: italic } /* Comment */
+                .codehilite .err { border: 1px solid #FF0000 } /* Error */
+                .codehilite .k { color: #008000; font-weight: bold } /* Keyword */
+                .codehilite .o { color: #666666 } /* Operator */
+                .codehilite .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+                .codehilite .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+                .codehilite .cp { color: #BC7A00 } /* Comment.Preproc */
+                .codehilite .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+                .codehilite .c1 { color: #408080; font-style: italic } /* Comment.Single */
+                .codehilite .cs { color: #408080; font-style: italic } /* Comment.Special */
+                .codehilite .gd { color: #A00000 } /* Generic.Deleted */
+                .codehilite .ge { font-style: italic } /* Generic.Emph */
+                .codehilite .gr { color: #FF0000 } /* Generic.Error */
+                .codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+                .codehilite .gi { color: #00A000 } /* Generic.Inserted */
+                .codehilite .go { color: #888888 } /* Generic.Output */
+                .codehilite .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+                .codehilite .gs { font-weight: bold } /* Generic.Strong */
+                .codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+                .codehilite .gt { color: #0044DD } /* Generic.Traceback */
+                .codehilite .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+                .codehilite .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+                .codehilite .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+                .codehilite .kp { color: #008000 } /* Keyword.Pseudo */
+                .codehilite .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+                .codehilite .kt { color: #B00040 } /* Keyword.Type */
+                .codehilite .m { color: #666666 } /* Literal.Number */
+                .codehilite .s { color: #BA2121 } /* Literal.String */
+                .codehilite .na { color: #7D9029 } /* Name.Attribute */
+                .codehilite .nb { color: #008000 } /* Name.Builtin */
+                .codehilite .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+                .codehilite .no { color: #880000 } /* Name.Constant */
+                .codehilite .nd { color: #AA22FF } /* Name.Decorator */
+                .codehilite .ni { color: #999999; font-weight: bold } /* Name.Entity */
+                .codehilite .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+                .codehilite .nf { color: #0000FF } /* Name.Function */
+                .codehilite .nl { color: #A0A000 } /* Name.Label */
+                .codehilite .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+                .codehilite .nt { color: #008000; font-weight: bold } /* Name.Tag */
+                .codehilite .nv { color: #19177C } /* Name.Variable */
+                .codehilite .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+                .codehilite .w { color: #bbbbbb } /* Text.Whitespace */
+                .codehilite .mb { color: #666666 } /* Literal.Number.Bin */
+                .codehilite .mf { color: #666666 } /* Literal.Number.Float */
+                .codehilite .mh { color: #666666 } /* Literal.Number.Hex */
+                .codehilite .mi { color: #666666 } /* Literal.Number.Integer */
+                .codehilite .mo { color: #666666 } /* Literal.Number.Oct */
+                .codehilite .sa { color: #BA2121 } /* Literal.String.Affix */
+                .codehilite .sb { color: #BA2121 } /* Literal.String.Backtick */
+                .codehilite .sc { color: #BA2121 } /* Literal.String.Char */
+                .codehilite .dl { color: #BA2121 } /* Literal.String.Delimiter */
+                .codehilite .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+                .codehilite .s2 { color: #BA2121 } /* Literal.String.Double */
+                .codehilite .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+                .codehilite .sh { color: #BA2121 } /* Literal.String.Heredoc */
+                .codehilite .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+                .codehilite .sx { color: #008000 } /* Literal.String.Other */
+                .codehilite .sr { color: #BB6688 } /* Literal.String.Regex */
+                .codehilite .s1 { color: #BA2121 } /* Literal.String.Single */
+                .codehilite .ss { color: #19177C } /* Literal.String.Symbol */
+                .codehilite .bp { color: #008000 } /* Name.Builtin.Pseudo */
+                .codehilite .fm { color: #0000FF } /* Name.Function.Magic */
+                .codehilite .vc { color: #19177C } /* Name.Variable.Class */
+                .codehilite .vg { color: #19177C } /* Name.Variable.Global */
+                .codehilite .vi { color: #19177C } /* Name.Variable.Instance */
+                .codehilite .vm { color: #19177C } /* Name.Variable.Magic */
+                .codehilite .il { color: #666666 } /* Literal.Number.Integer.Long */
+
+                .markdown h1 { margin-block-start: 0.34em }
+                .markdown h2 { margin-block-start: 0.42em }
+                .markdown h3 { margin-block-start: 0.5em }
+                .markdown h4 { margin-block-start: 0.67em }
+                .markdown h5 { margin-block-start: 0.84em }
+                .markdown h6 { margin-block-start: 1.17em }
+                .markdown ul { padding-inline-start: 2em }
+                .markdown ol { padding-inline-start: 2em }
+                .markdown strong { font-weight: 600 }
+                .markdown a { color: -webkit-link }
+                .markdown a { color: -moz-hyperlinkText }
+
+        </style>
+        <style>
+            .widget-box {
+                	min-height: 20px;
+                	background-color: #f5f5f5;
+                	border: 1px solid #e3e3e3 !important;
+                	border-radius: 4px;
+                	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+                	box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+                	overflow-x: hidden;
+                	overflow-y: hidden;
+                }
+
+                .scrollable {
+                  overflow: scroll;
+                }
+
+                progress {
+                	appearance: none;
+                	-moz-appearance: none;
+                	-webkit-appearance: none;
+
+                	border: none;
+                	height: 20px;
+                	background-color: whiteSmoke;
+                	border-radius: 3px;
+                	box-shadow: 0 2px 3px rgba(0,0,0,.5) inset;
+                	color: royalblue;
+                	position: relative;
+                	margin: 0 0 1.5em;
+                }
+
+                progress[value]::-webkit-progress-bar {
+                	background-color: whiteSmoke;
+                	border-radius: 3px;
+                	box-shadow: 0 2px 3px rgba(0,0,0,.5) inset;
+                }
+
+                progress[value]::-webkit-progress-value {
+                	position: relative;
+
+                	background-size: 35px 20px, 100% 100%, 100% 100%;
+                	border-radius:3px;
+                }
+
+                progress.active:not([value])::before {
+                	background-position: 10%;
+                	animation-name: stripes;
+                	animation-duration: 3s;
+                	animation-timing-function: linear;
+                	animation-iteration-count: infinite;
+                }
+
+                progress[value]::-moz-progress-bar {
+                	background-size: 35px 20px, 100% 100%, 100% 100%;
+                	border-radius:3px;
+                }
+
+                progress:not([value])::-moz-progress-bar {
+                	border-radius:3px;
+                	background:
+                	linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.2) 33%, rgba(0, 0, 0, 0.2) 66%, transparent 66%) left/2.5em 1.5em;
+
+                }
+
+                progress.active:not([value])::-moz-progress-bar {
+                	background-position: 10%;
+                	animation-name: stripes;
+                	animation-duration: 3s;
+                	animation-timing-function: linear;
+                	animation-iteration-count: infinite;
+                }
+
+                progress.active:not([value])::-webkit-progress-bar {
+                	background-position: 10%;
+                	animation-name: stripes;
+                	animation-duration: 3s;
+                	animation-timing-function: linear;
+                	animation-iteration-count: infinite;
+                }
+
+                progress.primary[value]::-webkit-progress-value { background-color: #007bff; }
+                progress.primary:not([value])::before { background-color: #007bff; }
+                progress.primary:not([value])::-webkit-progress-bar { background-color: #007bff; }
+                progress.primary::-moz-progress-bar { background-color: #007bff; }
+
+                progress.secondary[value]::-webkit-progress-value { background-color: #6c757d; }
+                progress.secondary:not([value])::before { background-color: #6c757d; }
+                progress.secondary:not([value])::-webkit-progress-bar { background-color: #6c757d; }
+                progress.secondary::-moz-progress-bar { background-color: #6c757d; }
+
+                progress.success[value]::-webkit-progress-value { background-color: #28a745; }
+                progress.success:not([value])::before { background-color: #28a745; }
+                progress.success:not([value])::-webkit-progress-bar { background-color: #28a745; }
+                progress.success::-moz-progress-bar { background-color: #28a745; }
+
+                progress.danger[value]::-webkit-progress-value { background-color: #dc3545; }
+                progress.danger:not([value])::before { background-color: #dc3545; }
+                progress.danger:not([value])::-webkit-progress-bar { background-color: #dc3545; }
+                progress.danger::-moz-progress-bar { background-color: #dc3545; }
+
+                progress.warning[value]::-webkit-progress-value { background-color: #ffc107; }
+                progress.warning:not([value])::before { background-color: #ffc107; }
+                progress.warning:not([value])::-webkit-progress-bar { background-color: #ffc107; }
+                progress.warning::-moz-progress-bar { background-color: #ffc107; }
+
+                progress.info[value]::-webkit-progress-value { background-color: #17a2b8; }
+                progress.info:not([value])::before { background-color: #17a2b8; }
+                progress.info:not([value])::-webkit-progress-bar { background-color: #17a2b8; }
+                progress.info::-moz-progress-bar { background-color: #17a2b8; }
+
+                progress.light[value]::-webkit-progress-value { background-color: #f8f9fa; }
+                progress.light:not([value])::before { background-color: #f8f9fa; }
+                progress.light:not([value])::-webkit-progress-bar { background-color: #f8f9fa; }
+                progress.light::-moz-progress-bar { background-color: #f8f9fa; }
+
+                progress.dark[value]::-webkit-progress-value { background-color: #343a40; }
+                progress.dark:not([value])::-webkit-progress-bar { background-color: #343a40; }
+                progress.dark:not([value])::before { background-color: #343a40; }
+                progress.dark::-moz-progress-bar { background-color: #343a40; }
+
+                progress:not([value])::-webkit-progress-bar {
+                	border-radius: 3px;
+                	background:
+                	linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.2) 33%, rgba(0, 0, 0, 0.2) 66%, transparent 66%) left/2.5em 1.5em;
+                }
+                progress:not([value])::before {
+                	content:" ";
+                	position:absolute;
+                	height: 20px;
+                	top:0;
+                	left:0;
+                	right:0;
+                	bottom:0;
+                	border-radius: 3px;
+                	background:
+                	linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.2) 33%, rgba(0, 0, 0, 0.2) 66%, transparent 66%) left/2.5em 1.5em;
+                }
+
+                @keyframes stripes {
+                  from {background-position: 0%}
+                  to {background-position: 100%}
+                }
+        </style>
+        
+        
+          
+        <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.0.1.min.js" integrity="sha384-JpP8FXbgAZLkfur7LiK3j9AGBhHNIvF742meBJrjO2ShJDhCG2I1uVvW+0DUtrmc" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            Bokeh.set_log_level("info");
+        </script>
+        
+      
+      
+    
+  </head>
+  
+  
+  <body>
+    
+      
+        
+          
+          
+            
+              <div class="bk-root" id="e671d856-804b-43b1-98ac-c0fc26c44ef6" data-root-id="3199"></div>
+            
+          
+        
+      
+      
+        <script type="application/json" id="3572">
+          {"f9ccf657-da9a-4851-8110-d03ff3ee8258":{"roots":{"references":[{"attributes":{"click_policy":"mute","items":[{"id":"3248"},{"id":"3265"},{"id":"3284"},{"id":"3305"}],"location":[0,0],"title":"class"},"id":"3247","type":"Legend"},{"attributes":{"axis_label":"TotalCoinsMined","bounds":"auto","formatter":{"id":"3229"},"major_label_orientation":"horizontal","ticker":{"id":"3209"}},"id":"3208","type":"LinearAxis"},{"attributes":{"callback":null,"renderers":[{"id":"3239"},{"id":"3255"},{"id":"3272"},{"id":"3291"}],"tags":["hv_created"],"tooltips":[["class","@{class}"],["TotalCoinsMined","@{TotalCoinsMined}"],["TotalCoinSupply","@{TotalCoinSupply}"]]},"id":"3195","type":"HoverTool"},{"attributes":{},"id":"3217","type":"PanTool"},{"attributes":{},"id":"3286","type":"Selection"},{"attributes":{"bottom_units":"screen","fill_alpha":0.5,"fill_color":"lightgrey","left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"3221","type":"BoxAnnotation"},{"attributes":{},"id":"3229","type":"BasicTickFormatter"},{"attributes":{},"id":"3262","type":"UnionRenderers"},{"attributes":{"data_source":{"id":"3285"},"glyph":{"id":"3288"},"hover_glyph":null,"muted_glyph":{"id":"3290"},"nonselection_glyph":{"id":"3289"},"selection_glyph":null,"view":{"id":"3292"}},"id":"3291","type":"GlyphRenderer"},{"attributes":{"data":{"TotalCoinSupply":{"__ndarray__":"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","dtype":"float64","shape":[314]},"TotalCoinsMined":{"__ndarray__":"OvgPLPT88j6qSWcKpYMcPxcBEeFFsRA/coN7Ghc48j4RhtIPXwQeP/3QzM2pR98+goYVQZ6Yhz8ock01T3DYPrQlFkmAnuc+AAAAAAAAAACwyLIJNNvpPgAAAAAAAAAAzyrMq6jwWz+6+4ofEm/YPfCn+ondiCY/hsrS6UoSIT/irI/EQyzfPvWGc9+uLjE/r4lLwow9Cj8a9kWOCLYBPwAAAAAAAAAAAAAAAAAAAABtl+T0w5bePn3/LvrT7dM+oDAZSLsr1T4o+0EgD3qQPwAAAAAAAAAA+Exb8Thrkz/Zg2YWifCJP+Ofr23gJfY+AAAAAAAAAADE1YfJY/osP5vgW86NpvQ+AAAAAAAAAAAAAAAAAAAAAOavJCShXbM+0+KzGJSgKz9N7nfOlUNNP9Zl/jDKYxE/oNmtHd8PBj8AAAAAAAAAAMk21v5Sbbc/KcGomGBW9j5xaz4MIQ0kP1O25e1UePQ+FZIRWRa3sj4AAAAAAAAAAJrHwCx1NAQ/mTMYoYxpBT95pn+yPZfYPgAAAAAAAAAAAjn11S2UYz/L9lnajDfvPhxpZ5VGKDY/AAAAAAAAAAB1oKXfRrayPjDUp2nypfk+WEvmA74b+z4AAAAAAAAAAAAAAAAAAAAAd3wns2WlQj9+G1qEgA4HP8sUXdnuSvg+AAAAAAAAAAAhY2Jmw03DPqXlRg4WPYs+8xcYRct1tD6/2h5jXYX4PgAAAAAAAAAArtGCxuAZCz9cqUQj26sfP5xvs3L2wQQ/9Uxi3X7Mxz/mZTlYUZN8Pyveki6/DhI/AAAAAAAAAAB48rbCgHk7P7X2qUH9NCI/y37Nb+ipiD4/fHIvBikkPz6ETOiDO0o/AAAAAAAAAADuBgVu789HP1O6M0TePRE/ZaYz3cn32j4+/adJ8nrlPkNN4PAtE3M/AAAAAAAAAACpCNJvfHNHPwAAAAAAAAAAAAAAAAAAAAApDxxIFv+kPmPnUa96Zuo+eUQiukDrdz4AAAAAAAAAAPjpsbVwEAE/YfoD8a8c7T7Bhj80aD3vPu6ALtR6zfA+ZATycgo/AT8lDfzdtwUUPx+gbPCWO+Y+rBXTdCEeoT9VS0uYhs7wPpYdzVh3PfY+AAAAAAAAAAC7wmkcsM0rP/GIn/LDQOg+soSb0QN+Ej8AAAAAAAAAAMjW2G+ifJY/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA63jrIdXjBz8AAAAAAAAAAPrNJw9xKNg+xq3Ca3WSpT4AAAAAAAAAAOH9loD1SPI+AAAAAAAAAAAGWpDLstbbPkTF/QCc7Ow+AAAAAAAAAABYZG3cy+SkPmjJIpr0Wbc+trO67XGwHj8e8KwDG5LgPh/EGrwRdNo+lJ7pELiMUD/nid14pfAeP4Eb6kCSSuM+h/13SfGN5z4AAAAAAAAAAAAAAAAAAAAAiNLKd0cI4D4AAAAAAAAAAAAAAAAAAAAA7LaN4KHB+z4AAAAAAAAAADTwWOp0yNc+/DupVkb9KT8AAAAAAAAAAEoDrOgcRks/ln3We8Q/ED/KEoejlZOwPv3PaAdJTa4++l2uYFnS4z75iOtmecu/PgAAAAAAAAAAo7T7lRXGQT8AAAAAAAAAAHHujGupPOc+AAAAAAAAAADgp4U5nmXKPq0DABSFFwA/HkZK7TlT3T79GRStInAaP9HUM7WupPM+AAAAAAAAAAAAAAAAAAAAAGJb4PCb68I++kXUUOn4ED+7KTTLz3HlPgAAAAAAAAAAsrmiV9159T4AAAAAAAAAAJbhigbtzlU/3hn6uBb37D6Z8aR+x0cSPywe0yp+9PQ+cUnS5EikIT8CxVDsIH/zPriWzi408l0/e2HlgfebAj8mSnzt0DTzPq+HWxf45NU+kK8qNWOV+z5GN2mNkDnGPjHqbzzy/+0+sL5A3fna8j5vmApDBRXFPwkc7VVDi2I/kMUUryg3ID9OsVIigQ/zPgAAAAAAAAAAfTdJ5xpyoD5DKeYmbn3CPwAAAAAAAAAAnr2LloCO5D7GRs+dlXzyPtCZgLEUSgE/MbdPSB7bAT81LfgsxfPiPh8kgsD4j3U/v6jvt55dZj99tAahaKbRPjaRdKVrOPI+aG7u+8j/AT9W5nmYEnoaP8mC1w65Mic/AYZ0O5sC2z4AAAAAAAAAADZnGDvHBes+AAAAAAAAAACxaZJtuLXYPj9FbQTU4z8/gnd2jLrxkz/u665GsxDTPoa5m4S+PUE/qUYpam9EFT8AAAAAAAAAAIbaCyHQNT0//EzuO81mcD/mja27lx+fP3Xe4k7R6tE+b3kOmaef4D7Fsb2Eo9gzP/UX3mJdFgg/LlOaH6314T6vkCvgAlz1Ppyb3rldPuk+rMZZv6xruz6uqERmlHurP3IDdIX4adQ+kZGiTnm7IT8AAAAAAAAAAAAAAAAAAAAAOQYkFeavhD+BtZjZT2scP3oOJy0qT0U/FokUCkshRT8tc7o7hV3qPu/6WGZL+o0/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH1Ufdqv5Kz+Qr3juQWQwPwAAAAAAAAAAqL2H2VMyFT8AAAAAAAAAAIoy3GeNPtE+IGQPG8B6+j4AAAAAAAAAAOvgKHsC5RI/AAAAAAAAAADP2yiiYPX8Pj7Brb171wA/t0l5Evn28D5HiBke9FD2PphzeWD0mNU+/zviWO/1qj4r67oXc5ndPmC28F+i23Y+Cuw+9IFJ9D5HwBs5SlulPykyUxXj/CE/6yufhdqJQj+M/5UoqDbhPmAZ2G9nUOI+IJktAXEn1T7mytopDQK4Pmq0tUCSgPA+Us86zqq41D4Alxnd1jzvPl6lBjlKvrk/AAAAAAAAAAC1GcIRjmBhP6iQNas5QNU+1tQL/nWp5D650eONvoVxPwAAAAAAAAAAAAAAAAAAAACUcp76LeLsPgAAAAAAAAAAJ+VNr6sO8z4AAAAAAAAAAGzTwtYv5l4/AAAAAAAAAAAAAAAAAAAAAF+5LVA3v7o+yiDkttbI8D4AAAAAAAAAAIadnOr9i+w+mhkfQiiHmz4XiXzPua8CP6MMN/hV5gI/F1og7qKj+j7fWi4VqGHrPgAAAAAAAAAAAAAAAAAAAAB9UNXBvLELP+IWroEy1bM+sRJK+7VnFj8AAAAAAAAAABcOLVY8bQ0/78Pvzg6mbz/fakOsMb34PgAAAAAAAAAAq6pNJxHTST/mwcz851j4PgAAAAAAAAAA8bVizLCZnj/hbNjJs2gTP6LH0aIAaNU+7s1TPbxzEj8AAAAAAAAAAO41LaPGPcw+IGQPG8B6Gj/m0tgM6O/5PgAAAAAAAAAAB4XFfe04UD+SS8Y20+nePg==","dtype":"float64","shape":[314]},"class":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]},"selected":{"id":"3250"},"selection_policy":{"id":"3281"}},"id":"3249","type":"ColumnDataSource"},{"attributes":{"label":{"value":"2"},"renderers":[{"id":"3272"}]},"id":"3284","type":"LegendItem"},{"attributes":{"label":{"value":"3"},"renderers":[{"id":"3291"}]},"id":"3305","type":"LegendItem"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b3"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b3"},"size":{"units":"screen","value":5.477225575051661},"x":{"field":"TotalCoinsMined"},"y":{"field":"TotalCoinSupply"}},"id":"3237","type":"Scatter"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#ff7e0e"},"line_alpha":{"value":0.1},"line_color":{"value":"#ff7e0e"},"size":{"units":"screen","value":5.477225575051661},"x":{"field":"TotalCoinsMined"},"y":{"field":"TotalCoinSupply"}},"id":"3253","type":"Scatter"},{"attributes":{"fill_color":{"value":"#ff7e0e"},"line_color":{"value":"#ff7e0e"},"size":{"units":"screen","value":5.477225575051661},"x":{"field":"TotalCoinsMined"},"y":{"field":"TotalCoinSupply"}},"id":"3252","type":"Scatter"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#2ba02b"},"line_alpha":{"value":0.1},"line_color":{"value":"#2ba02b"},"size":{"units":"screen","value":5.477225575051661},"x":{"field":"TotalCoinsMined"},"y":{"field":"TotalCoinSupply"}},"id":"3270","type":"Scatter"},{"attributes":{"fill_alpha":{"value":0.2},"fill_color":{"value":"#d62628"},"line_alpha":{"value":0.2},"line_color":{"value":"#d62628"},"size":{"units":"screen","value":5.477225575051661},"x":{"field":"TotalCoinsMined"},"y":{"field":"TotalCoinSupply"}},"id":"3290","type":"Scatter"},{"attributes":{},"id":"3216","type":"SaveTool"},{"attributes":{"text":""},"id":"3200","type":"Title"},{"attributes":{},"id":"3218","type":"WheelZoomTool"},{"attributes":{"axis":{"id":"3212"},"dimension":1,"grid_line_color":null,"ticker":null},"id":"3215","type":"Grid"},{"attributes":{"fill_alpha":{"value":0.2},"fill_color":{"value":"#1f77b3"},"line_alpha":{"value":0.2},"line_color":{"value":"#1f77b3"},"size":{"units":"screen","value":5.477225575051661},"x":{"field":"TotalCoinsMined"},"y":{"field":"TotalCoinSupply"}},"id":"3238","type":"Scatter"},{"attributes":{"end":1.042857142857143,"reset_end":1.042857142857143,"reset_start":-0.04285714285714286,"start":-0.04285714285714286,"tags":[[["TotalCoinsMined","TotalCoinsMined",null]]]},"id":"3193","type":"Range1d"},{"attributes":{"axis":{"id":"3208"},"grid_line_color":null,"ticker":null},"id":"3211","type":"Grid"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"3195"},{"id":"3216"},{"id":"3217"},{"id":"3218"},{"id":"3219"},{"id":"3220"}]},"id":"3222","type":"Toolbar"},{"attributes":{},"id":"3231","type":"BasicTickFormatter"},{"attributes":{"data_source":{"id":"3266"},"glyph":{"id":"3269"},"hover_glyph":null,"muted_glyph":{"id":"3271"},"nonselection_glyph":{"id":"3270"},"selection_glyph":null,"view":{"id":"3273"}},"id":"3272","type":"GlyphRenderer"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#d62628"},"line_alpha":{"value":0.1},"line_color":{"value":"#d62628"},"size":{"units":"screen","value":5.477225575051661},"x":{"field":"TotalCoinsMined"},"y":{"field":"TotalCoinSupply"}},"id":"3289","type":"Scatter"},{"attributes":{},"id":"3220","type":"ResetTool"},{"attributes":{"fill_color":{"value":"#1f77b3"},"line_color":{"value":"#1f77b3"},"size":{"units":"screen","value":5.477225575051661},"x":{"field":"TotalCoinsMined"},"y":{"field":"TotalCoinSupply"}},"id":"3236","type":"Scatter"},{"attributes":{"data":{"TotalCoinSupply":{"__ndarray__":"jpSP6XZIRz4Lqj8hX6ASPg==","dtype":"float64","shape":[2]},"TotalCoinsMined":{"__ndarray__":"lJ7pELiMUD8gZA8bwHoaPw==","dtype":"float64","shape":[2]},"class":[2,2]},"selected":{"id":"3267"},"selection_policy":{"id":"3302"}},"id":"3266","type":"ColumnDataSource"},{"attributes":{},"id":"3281","type":"UnionRenderers"},{"attributes":{"data":{"TotalCoinSupply":{"__ndarray__":"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","dtype":"float64","shape":[367]},"TotalCoinsMined":{"__ndarray__":"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","dtype":"float64","shape":[367]},"class":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},"selected":{"id":"3234"},"selection_policy":{"id":"3262"}},"id":"3233","type":"ColumnDataSource"},{"attributes":{"fill_color":{"value":"#d62628"},"line_color":{"value":"#d62628"},"size":{"units":"screen","value":5.477225575051661},"x":{"field":"TotalCoinsMined"},"y":{"field":"TotalCoinSupply"}},"id":"3288","type":"Scatter"},{"attributes":{},"id":"3317","type":"UnionRenderers"},{"attributes":{},"id":"3267","type":"Selection"},{"attributes":{"overlay":{"id":"3221"}},"id":"3219","type":"BoxZoomTool"},{"attributes":{},"id":"3250","type":"Selection"},{"attributes":{"fill_color":{"value":"#2ba02b"},"line_color":{"value":"#2ba02b"},"size":{"units":"screen","value":5.477225575051661},"x":{"field":"TotalCoinsMined"},"y":{"field":"TotalCoinSupply"}},"id":"3269","type":"Scatter"},{"attributes":{"align":null,"below":[{"id":"3208"}],"center":[{"id":"3211"},{"id":"3215"}],"left":[{"id":"3212"}],"margin":null,"min_border_bottom":10,"min_border_left":10,"min_border_right":10,"min_border_top":10,"plot_height":300,"plot_width":700,"renderers":[{"id":"3239"},{"id":"3255"},{"id":"3272"},{"id":"3291"}],"right":[{"id":"3247"}],"sizing_mode":"fixed","title":{"id":"3200"},"toolbar":{"id":"3222"},"x_range":{"id":"3193"},"x_scale":{"id":"3204"},"y_range":{"id":"3194"},"y_scale":{"id":"3206"}},"id":"3199","subtype":"Figure","type":"Plot"},{"attributes":{"fill_alpha":{"value":0.2},"fill_color":{"value":"#ff7e0e"},"line_alpha":{"value":0.2},"line_color":{"value":"#ff7e0e"},"size":{"units":"screen","value":5.477225575051661},"x":{"field":"TotalCoinsMined"},"y":{"field":"TotalCoinSupply"}},"id":"3254","type":"Scatter"},{"attributes":{},"id":"3234","type":"Selection"},{"attributes":{"data_source":{"id":"3249"},"glyph":{"id":"3252"},"hover_glyph":null,"muted_glyph":{"id":"3254"},"nonselection_glyph":{"id":"3253"},"selection_glyph":null,"view":{"id":"3256"}},"id":"3255","type":"GlyphRenderer"},{"attributes":{},"id":"3213","type":"BasicTicker"},{"attributes":{"source":{"id":"3233"}},"id":"3240","type":"CDSView"},{"attributes":{"source":{"id":"3266"}},"id":"3273","type":"CDSView"},{"attributes":{"end":1.1,"reset_end":1.1,"reset_start":-0.1,"start":-0.1,"tags":[[["TotalCoinSupply","TotalCoinSupply",null]]]},"id":"3194","type":"Range1d"},{"attributes":{"label":{"value":"0"},"renderers":[{"id":"3239"}]},"id":"3248","type":"LegendItem"},{"attributes":{},"id":"3209","type":"BasicTicker"},{"attributes":{"source":{"id":"3249"}},"id":"3256","type":"CDSView"},{"attributes":{"data":{"TotalCoinSupply":{"__ndarray__":"H1DO9o6C5j4=","dtype":"float64","shape":[1]},"TotalCoinsMined":{"__ndarray__":"AAAAAAAA8D8=","dtype":"float64","shape":[1]},"class":[3]},"selected":{"id":"3286"},"selection_policy":{"id":"3317"}},"id":"3285","type":"ColumnDataSource"},{"attributes":{},"id":"3204","type":"LinearScale"},{"attributes":{"label":{"value":"1"},"renderers":[{"id":"3255"}]},"id":"3265","type":"LegendItem"},{"attributes":{"axis_label":"TotalCoinSupply","bounds":"auto","formatter":{"id":"3231"},"major_label_orientation":"horizontal","ticker":{"id":"3213"}},"id":"3212","type":"LinearAxis"},{"attributes":{},"id":"3302","type":"UnionRenderers"},{"attributes":{},"id":"3206","type":"LinearScale"},{"attributes":{"fill_alpha":{"value":0.2},"fill_color":{"value":"#2ba02b"},"line_alpha":{"value":0.2},"line_color":{"value":"#2ba02b"},"size":{"units":"screen","value":5.477225575051661},"x":{"field":"TotalCoinsMined"},"y":{"field":"TotalCoinSupply"}},"id":"3271","type":"Scatter"},{"attributes":{"data_source":{"id":"3233"},"glyph":{"id":"3236"},"hover_glyph":null,"muted_glyph":{"id":"3238"},"nonselection_glyph":{"id":"3237"},"selection_glyph":null,"view":{"id":"3240"}},"id":"3239","type":"GlyphRenderer"},{"attributes":{"source":{"id":"3285"}},"id":"3292","type":"CDSView"}],"root_ids":["3199"]},"title":"Bokeh Application","version":"2.0.1"}}
+        </script>
+        <script type="text/javascript">
+          (function() {
+            var fn = function() {
+              Bokeh.safely(function() {
+                (function(root) {
+                  function embed_document(root) {
+                    
+                  var docs_json = document.getElementById('3572').textContent;
+                  var render_items = [{"docid":"f9ccf657-da9a-4851-8110-d03ff3ee8258","root_ids":["3199"],"roots":{"3199":"e671d856-804b-43b1-98ac-c0fc26c44ef6"}}];
+                  root.Bokeh.embed.embed_items(docs_json, render_items);
+                
+                  }
+                  if (root.Bokeh !== undefined) {
+                    embed_document(root);
+                  } else {
+                    var attempts = 0;
+                    var timer = setInterval(function(root) {
+                      if (root.Bokeh !== undefined) {
+                        clearInterval(timer);
+                        embed_document(root);
+                      } else {
+                        attempts++;
+                        if (attempts > 100) {
+                          clearInterval(timer);
+                          console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                        }
+                      }
+                    }, 10, root)
+                  }
+                })(window);
+              });
+            };
+            if (document.readyState != "loading") fn();
+            else document.addEventListener("DOMContentLoaded", fn);
+          })();
+        </script>
+    
+  </body>
+  
+</html>
