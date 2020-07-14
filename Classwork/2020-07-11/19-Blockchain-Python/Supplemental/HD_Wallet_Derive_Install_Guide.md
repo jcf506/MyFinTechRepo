@@ -110,7 +110,7 @@ To update the pre-built version of PHP in OS X, execute the following steps:
  ```shell
  nano ~/.bash_profile
  ```
-M
+
 * The `nano` text editor will be opened, scroll down to the end of the file and add the following commands to point to the newest version of PHP globally in your system.
 
  ```shell
