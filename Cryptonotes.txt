@@ -1,0 +1,34 @@
+My accounts:
+pw:worx whell
+Node1 Key: 0xb693c9524130Aa42238ab4f368D3c3255DB85381
+
+Node2 key: 0xCB8Cc905D6eCdC4c9f3b907bA50c687bFcFa5401
+
+Network ID: 12
+
+--network=dogfu
+
+[07-14|20:51:00.215] Started P2P networking                   self=enode:enode://3bc757928b36e6ae0a5b167563858211f237a3c3953ef71ee5daeb7936eed16bab080f604467051e3bfac006f64adebc9fe41a541eb02e4ccd8de50c676036e5@127.0.0.1:30303
+INFO [07-14|20:51:00.220] Transaction pool price threshold updated price=1000000000
+
+enode://3bc757928b36e6ae0a5b167563858211f237a3c3953ef71ee5daeb7936eed16bab080f604467051e
+3bfac006f64adebc9fe41a541eb02e4ccd8de50c676036e5@127.0.0.1:30303
+
+
+wallet 2: c290de4ea13463f9a629dfc37d4a5e9bdbedbb4bae9418fb9d75e2659548f9ef
+
+derived address: n39WP6VZyiJdG6kiEbFTsYs92oxpJD19T5
+Public key: 03d43b8a9a2b07267096f9e092db6b8b2b3efcefbd45189afab4b71fbceadff480
+Private key:  cPTpmZBXQts79U14zytvUgnvDyoY8A3SGV5UiRwbuwPdYNThe7Wt
+
+Homework code:
+
+./geth init networkname.json --datadir node2
+
+./geth --datadir node1 --mine --minerthreads 1
+
+./geth --datadir node2 --port 30304 --rpc --"bootnodes "
+
+enode://"6994ca26f7755569b5cdb4970299c2265f7dcb7714a4ffaf66400f50e5128e79e2f
+f465731ddf5970f931375aa90f40dcff7ace04afb84ae8de19da047bf@127.0.0.1:30303"
+--ipcdisable
