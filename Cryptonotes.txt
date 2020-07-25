@@ -22,13 +22,31 @@ Public key: 03d43b8a9a2b07267096f9e092db6b8b2b3efcefbd45189afab4b71fbceadff480
 Private key:  cPTpmZBXQts79U14zytvUgnvDyoY8A3SGV5UiRwbuwPdYNThe7Wt
 
 Homework code:
+./geth account new --datadir hotmild
+./geth account new --datadir spicy
+
+./puppeth
+<networkname> dogfu
+Create new Genesis   2,1,1,acccount,yes,enter
+Export Genesis       2,2,enter
+    
+./geth init networkname.json --datadir node1
+
+./geth init dogfather.json --datadir hotmild
 
 ./geth init networkname.json --datadir node2
 
-./geth --datadir node1 --mine --minerthreads 1
+./geth init dogfather.json --datadir spicy
 
-./geth --datadir node2 --port 30304 --rpc --"bootnodes "
 
-enode://"6994ca26f7755569b5cdb4970299c2265f7dcb7714a4ffaf66400f50e5128e79e2f
-f465731ddf5970f931375aa90f40dcff7ace04afb84ae8de19da047bf@127.0.0.1:30303"
---ipcdisable
+./geth --datadir hotmild --mine --minerthreads 1 --unlock "9C39027744eE8175434F593E8A1bF258303A121F" --rpc --allow-insecure-unlock
+
+
+./geth --datadir spicy --port 30304 --unlock "63C2aC6854F65F214ad47f64F55F128804ED3F48" --bootnodes "enode://d4e019e024a798bded4f815fc69de4b53579f2c47576703e42229664c61171b20d7703f52fec9545eab039b5f34d4bfaae432d3ee6f079bd3089183bc01eb5f6@127.0.0.1:30303" --ipcdisable --password "worx whell"
+
+
+Class Notes 7/21/20 Tuesday
+
+
+
+mnem = "maze keen guitar force spawn chair draft payment timber master spike image"
