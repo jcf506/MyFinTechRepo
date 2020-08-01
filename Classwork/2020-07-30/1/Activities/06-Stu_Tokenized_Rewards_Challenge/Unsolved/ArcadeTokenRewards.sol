@@ -8,8 +8,8 @@ contract ArcadeToken {
     address payable owner = msg.sender;
     string public symbol = "ARCD";
     uint public exchange_rate = 100;
-    // insert public fee_rate here in "basis points" -- used to calculate the fee percentage later
-    // insert public reward_rate set to the amount of tokens rewarded per wei spent
+    uint public fee_rate = 25// insert public fee_rate here in "basis points" -- used to calculate the fee percentage later
+    uint public reward_rate = 3// insert public reward_rate set to the amount of tokens rewarded per wei spent
 
     mapping(address => uint) balances;
 
