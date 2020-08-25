@@ -1,19 +1,10 @@
 # MyFinTechRepo
 
-## Sub Heading 
+## Collection of Homework and Class Activities 
 
-*bullet1
-*bullet2
-*Hello*
-
-*Hello*
-
-**Bold**
-
-[github]
-
-![bat](https://www.justbats.com/product/2020-louisville-slugger-meta-prime-bbcor-baseball-bat--wtlbbmtb320/31765/)
-
-(bat.jpg.jpg)
-
-
+This reposisitory is a collection of class activities and homework.  It represets the evolution of learning to write and 
+understand code and reflects the myriad of tools acquired over the course of this bootcamp.  The year 2020 has been an 
+interesting one, to say the least.  Our class began as a traditional in-person learning set-up and quickly became an on-line 
+virtual set-up, with the onset of the Corona Virus pandemic.  At times, this became a test of endurance, as classmates weathered 
+computer failure and the actual virus.  In the end, I can say I have benefitted from the adjustment struggles and have a solid foundation 
+on which to further my learning in what is a cutting-edge field.
